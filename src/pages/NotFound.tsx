@@ -1,5 +1,10 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { useEffect } from "react";
+import { AnimatedBackground } from "@/components/ui/animated-background";
+import { GlassCard } from "@/components/ui/glass-card";
+import { GradientButton } from "@/components/ui/gradient-button";
+import { Navbar } from "@/components/navbar";
+import { ArrowLeft } from "lucide-react";
 
 const NotFound = () => {
   const location = useLocation();
@@ -12,14 +17,25 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">404</h1>
-        <p className="text-xl text-gray-600 mb-4">Oops! Page not found</p>
-        <a href="/" className="text-blue-500 hover:text-blue-700 underline">
-          Return to Home
-        </a>
-      </div>
+    <div className="min-h-screen flex flex-col">
+      <AnimatedBackground intensity="subtle" speed="slow" />
+      <Navbar />
+      
+      <main className="flex-1 flex items-center justify-center px-4">
+        <GlassCard className="p-12 max-w-lg text-center animate-fade-in">
+          <h1 className="text-6xl font-bold font-heading mb-4 gradient-text">404</h1>
+          <h2 className="text-2xl font-medium mb-6">Page not found</h2>
+          <p className="text-muted-foreground mb-8">
+            The page you're looking for doesn't exist or has been moved.
+          </p>
+          <GradientButton asChild>
+            <Link to="/">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Return to Home
+            </Link>
+          </GradientButton>
+        </GlassCard>
+      </main>
     </div>
   );
 };
