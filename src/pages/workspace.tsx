@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnimatedBackground } from "@/components/ui/animated-background";
@@ -9,7 +8,11 @@ import { IntensitySlider } from "@/components/intensity-slider";
 import { ArrowLeft, Download, Wand2, RefreshCw } from "lucide-react";
 
 // Sample images - in a real app these would come from state/context
-import { referenceImageSample, targetImageSample, resultImageSample } from "../assets";
+import {
+  referenceImageSample,
+  targetImageSample,
+  resultImageSample,
+} from "../assets";
 
 export default function WorkspacePage() {
   const navigate = useNavigate();
@@ -26,14 +29,14 @@ export default function WorkspacePage() {
       const timer = setTimeout(() => {
         setIsProcessing(false);
       }, 800);
-      
+
       return () => clearTimeout(timer);
     }
   }, [intensity, resultImage]);
 
   const handleApplyColorGrade = () => {
     setIsProcessing(true);
-    
+
     // Simulate processing delay
     setTimeout(() => {
       setResultImage(resultImageSample);
@@ -44,11 +47,11 @@ export default function WorkspacePage() {
   const handleDownload = () => {
     // In a real app, this would download the actual result image
     // For demo, we'll just alert
-    alert('Downloading result image...');
+    alert("Downloading result image...");
   };
 
   const handleStartOver = () => {
-    navigate('/');
+    navigate("/");
   };
 
   const handleIntensityChange = (value: number) => {
@@ -59,47 +62,49 @@ export default function WorkspacePage() {
     <div className="min-h-screen flex flex-col">
       <AnimatedBackground intensity="subtle" speed="slow" />
       <Navbar />
-      
+
       <main className="flex-1 pt-32 px-4 pb-16">
         <div className="max-w-7xl mx-auto">
           {/* Top Bar */}
           <div className="flex justify-between items-center mb-8">
-            <GradientButton 
-              variant="outline" 
+            <GradientButton
+              variant="outline"
               size="sm"
-              onClick={() => navigate('/')}
+              onClick={() => navigate("/")}
               gradientFrom="from-foreground/10"
               gradientTo="to-foreground/5"
             >
               <ArrowLeft className="mr-2 h-4 w-4" /> Back
             </GradientButton>
-            
+
             {resultImage && (
               <GradientButton
                 variant="ghost"
                 size="sm"
                 onClick={handleDownload}
-                gradientFrom="from-gradients-purple/10" 
+                gradientFrom="from-gradients-purple/10"
                 gradientTo="to-gradients-blue/10"
               >
                 <Download className="mr-2 h-4 w-4" /> Download
               </GradientButton>
             )}
           </div>
-          
+
           {/* Main Workspace */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Reference Image */}
             <GlassCard className="p-4 animate-fade-in">
-              <h2 className="text-lg font-semibold mb-4 font-heading">Reference Image</h2>
+              <h2 className="text-lg font-semibold mb-4 font-heading">
+                Reference Image
+              </h2>
               <div className="aspect-square overflow-hidden rounded-lg shadow-md hover-scale">
-                <img 
-                  src={referenceImageSample} 
-                  alt="Reference" 
+                <img
+                  src={referenceImageSample}
+                  alt="Reference"
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    e.currentTarget.src = '/placeholder.svg';
-                    e.currentTarget.classList.add('p-8', 'bg-gray-50');
+                    e.currentTarget.src = "/placeholder.svg";
+                    e.currentTarget.classList.add("p-8", "bg-gray-50");
                   }}
                 />
               </div>
@@ -107,18 +112,20 @@ export default function WorkspacePage() {
                 The color profile to extract
               </p>
             </GlassCard>
-            
+
             {/* Target Image */}
             <GlassCard className="p-4 animate-fade-in delay-100">
-              <h2 className="text-lg font-semibold mb-4 font-heading">Target Image</h2>
+              <h2 className="text-lg font-semibold mb-4 font-heading">
+                Target Image
+              </h2>
               <div className="aspect-square overflow-hidden rounded-lg shadow-md hover-scale">
-                <img 
-                  src={targetImageSample} 
-                  alt="Target" 
+                <img
+                  src={targetImageSample}
+                  alt="Target"
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    e.currentTarget.src = '/placeholder.svg';
-                    e.currentTarget.classList.add('p-8', 'bg-gray-50');
+                    e.currentTarget.src = "/placeholder.svg";
+                    e.currentTarget.classList.add("p-8", "bg-gray-50");
                   }}
                 />
               </div>
@@ -126,19 +133,23 @@ export default function WorkspacePage() {
                 The image to apply color grading to
               </p>
             </GlassCard>
-            
+
             {/* Result Image */}
             <GlassCard className="p-4 animate-fade-in delay-200">
-              <h2 className="text-lg font-semibold mb-4 font-heading">Result Image</h2>
+              <h2 className="text-lg font-semibold mb-4 font-heading">
+                Result Image
+              </h2>
               <div className="aspect-square overflow-hidden rounded-lg shadow-md bg-gray-100/50 flex items-center justify-center relative">
                 {resultImage ? (
-                  <img 
-                    src={resultImage} 
-                    alt="Result" 
-                    className={`w-full h-full object-cover transition-opacity duration-300 ${isProcessing ? 'opacity-50' : 'opacity-100'}`}
+                  <img
+                    src={resultImage}
+                    alt="Result"
+                    className={`w-full h-full object-cover transition-opacity duration-300 ${
+                      isProcessing ? "opacity-50" : "opacity-100"
+                    }`}
                     onError={(e) => {
-                      e.currentTarget.src = '/placeholder.svg';
-                      e.currentTarget.classList.add('p-8', 'bg-gray-50');
+                      e.currentTarget.src = "/placeholder.svg";
+                      e.currentTarget.classList.add("p-8", "bg-gray-50");
                     }}
                   />
                 ) : (
@@ -149,7 +160,7 @@ export default function WorkspacePage() {
                     </p>
                   </div>
                 )}
-                
+
                 {isProcessing && (
                   <div className="absolute inset-0 flex items-center justify-center bg-black/5 backdrop-blur-sm">
                     <RefreshCw className="w-8 h-8 text-primary animate-spin" />
@@ -157,23 +168,23 @@ export default function WorkspacePage() {
                 )}
               </div>
               <p className="mt-2 text-sm text-muted-foreground">
-                {resultImage 
-                  ? `Color grading applied at ${intensity}% intensity` 
+                {resultImage
+                  ? `Color grading applied at ${intensity}% intensity`
                   : "The processed image will appear here"}
               </p>
             </GlassCard>
           </div>
-          
+
           {/* Controls */}
           <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
-            <IntensitySlider 
-              onChange={handleIntensityChange} 
+            <IntensitySlider
+              onChange={handleIntensityChange}
               defaultValue={intensity}
               className="md:col-span-2"
             />
-            
+
             <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:space-x-4 md:col-span-2 justify-center">
-              <GradientButton 
+              <GradientButton
                 onClick={handleApplyColorGrade}
                 disabled={isProcessing}
                 className="min-w-40"
@@ -190,7 +201,7 @@ export default function WorkspacePage() {
                   </>
                 )}
               </GradientButton>
-              
+
               {resultImage && (
                 <>
                   <GradientButton
@@ -202,7 +213,7 @@ export default function WorkspacePage() {
                     <Download className="mr-2 h-4 w-4" />
                     Download Result
                   </GradientButton>
-                  
+
                   <GradientButton
                     variant="outline"
                     onClick={handleStartOver}
@@ -217,6 +228,14 @@ export default function WorkspacePage() {
           </div>
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="py-12 px-4 text-center relative">
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
+        <p className="text-sm text-textColor-muted">
+          &copy; {new Date().getFullYear()} ColorGradeX. All rights reserved.
+        </p>
+      </footer>
     </div>
   );
 }
