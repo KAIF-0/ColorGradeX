@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -13,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ColorGradeX",
-  description: "Transform your image contrasts with ColorGradeX.",
+  title: "ColorGradeX - Smart Color Grading Transfer Tool",
+  description: "Transform your image contrasts with ColorGradeX - Apply the color grading of one image to another in seconds.",
 };
 
 export default function RootLayout({

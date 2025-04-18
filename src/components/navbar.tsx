@@ -1,9 +1,12 @@
 
+"use client";
+
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Github, HelpCircle, Home, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 
 interface NavbarProps {
   className?: string;
@@ -11,6 +14,7 @@ interface NavbarProps {
 
 export function Navbar({ className }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
   
   useEffect(() => {
     const handleScroll = () => {
@@ -28,7 +32,7 @@ export function Navbar({ className }: NavbarProps) {
     { name: "Home", href: "/", icon: <Home className="w-4 h-4 mr-1" /> },
     { name: "About", href: "/about", icon: <Info className="w-4 h-4 mr-1" /> },
     { name: "Help", href: "/help", icon: <HelpCircle className="w-4 h-4 mr-1" /> },
-    { name: "GitHub", href: "https://github.com", icon: <Github className="w-4 h-4 mr-1" /> }
+    { name: "GitHub", href: "https://github.com", icon: <Github className="w-4 h-4 mr-1" />, external: true }
   ];
 
   return (
@@ -46,27 +50,36 @@ export function Navbar({ className }: NavbarProps) {
         )}
       >
         <Link 
-          to="/" 
+          href="/" 
           className="flex items-center gap-2 font-heading font-bold text-lg gradient-text animate-pulse-glow"
         >
           <span className="flex items-center text-xl">ColorGradeX</span>
         </Link>
         
         <nav className="flex items-center gap-6">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              to={link.href}
-              className={cn(
-                "text-sm flex items-center transition-colors duration-200",
-                "hover:text-primary relative group"
-              )}
-            >
-              {link.icon}
-              <span>{link.name}</span>
-              <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full"></span>
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link
+                key={link.name}
+                href={link.href}
+                target={link.external ? "_blank" : undefined}
+                rel={link.external ? "noopener noreferrer" : undefined}
+                className={cn(
+                  "text-sm flex items-center transition-colors duration-200",
+                  "relative group",
+                  isActive ? "text-primary" : "hover:text-primary"
+                )}
+              >
+                {link.icon}
+                <span>{link.name}</span>
+                <span className={cn(
+                  "absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300",
+                  isActive ? "w-full" : "w-0 group-hover:w-full"
+                )}></span>
+              </Link>
+            );
+          })}
         </nav>
       </GlassCard>
     </div>
